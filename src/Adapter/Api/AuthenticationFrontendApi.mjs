@@ -1,12 +1,13 @@
 import { AUTHENTICATION_LOCALIZATION_MODULE } from "../Localization/_LOCALIZATION_MODULE.mjs";
 
+/** @typedef {import("../Authentication/authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../../Service/Authentication/Port/AuthenticationService.mjs").AuthenticationService} AuthenticationService */
 /** @typedef {import("../../../../flux-css-api/src/Adapter/Api/CssApi.mjs").CssApi} CssApi */
 /** @typedef {import("../../../../flux-loading-api/src/Adapter/Api/LoadingApi.mjs").LoadingApi} LoadingApi */
 /** @typedef {import("../../../../flux-localization-api/src/Adapter/Api/LocalizationApi.mjs").LocalizationApi} LocalizationApi */
 /** @typedef {import("../Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 /** @typedef {import("../Authentication/showAuthentication.mjs").showAuthentication} showAuthentication */
-/** @typedef {import("../Authentication/startAuthentication.mjs").startAuthentication} startAuthentication */
+/** @typedef {import("../Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 const __dirname = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"));
 
@@ -76,24 +77,28 @@ export class AuthenticationFrontendApi {
     /**
      * @param {string} authentication_url
      * @param {showAuthentication} show_authentication
+     * @param {switchToOfflineMode | null} switch_to_offline_mode
      * @returns {Promise<void>}
      */
-    async authenticate(authentication_url, show_authentication) {
+    async authenticate(authentication_url, show_authentication, switch_to_offline_mode = null) {
         await (await this.#getAuthenticationService()).authenticate(
             authentication_url,
-            show_authentication
+            show_authentication,
+            switch_to_offline_mode
         );
     }
 
     /**
-     * @param {startAuthentication} start_authentication
+     * @param {_authenticate} authenticate
      * @param {setHideAuthentication} set_hide_authentication
+     * @param {_authenticate | null} switch_to_offline_mode
      * @returns {Promise<void>}
      */
-    async showAuthentication(start_authentication, set_hide_authentication) {
+    async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
         await (await this.#getAuthenticationService()).showAuthentication(
-            start_authentication,
-            set_hide_authentication
+            authenticate,
+            set_hide_authentication,
+            switch_to_offline_mode
         );
     }
 

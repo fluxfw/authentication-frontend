@@ -6,6 +6,13 @@ Changes:
 
 \-
 
+## v2023-03-13-1
+
+Changes:
+
+- Switch to offline mode
+- Popup message event data object
+
 ## v2023-02-09-1
 
 Changes:

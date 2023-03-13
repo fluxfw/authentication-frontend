@@ -16,16 +16,23 @@
     align-items: center;
     background-color: var(--authentication-background-color);
     color: var(--authentication-foreground-color);
-    display: flex;
-    flex-direction: column;
     height: auto;
-    max-width: 100%;
+    max-width: calc(100% - 20px);
     padding: 10px;
     width: auto;
 }
 
 flux-loading {
     --loading-color: var(--authentication-foreground-color);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: auto;
+    max-width: 100%;
+    width: auto;
 }
 
 button {
@@ -41,7 +48,7 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: auto;
+    width: 100%;
 }
 
 button:not(:disabled) {

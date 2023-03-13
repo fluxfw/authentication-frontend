@@ -1,9 +1,10 @@
+/** @typedef {import("../../../Adapter/Authentication/authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../../../../../flux-css-api/src/Adapter/Api/CssApi.mjs").CssApi} CssApi */
 /** @typedef {import("../../../../../flux-loading-api/src/Adapter/Api/LoadingApi.mjs").LoadingApi} LoadingApi */
 /** @typedef {import("../../../../../flux-localization-api/src/Adapter/Api/LocalizationApi.mjs").LocalizationApi} LocalizationApi */
 /** @typedef {import("../../../Adapter/Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 /** @typedef {import("../../../Adapter/Authentication/showAuthentication.mjs").showAuthentication} showAuthentication */
-/** @typedef {import("../../../Adapter/Authentication/startAuthentication.mjs").startAuthentication} startAuthentication */
+/** @typedef {import("../../../Adapter/Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 export class AuthenticationService {
     /**
@@ -48,22 +49,25 @@ export class AuthenticationService {
     /**
      * @param {string} authentication_url
      * @param {showAuthentication} show_authentication
+     * @param {switchToOfflineMode | null} switch_to_offline_mode
      * @returns {Promise<void>}
      */
-    async authenticate(authentication_url, show_authentication) {
+    async authenticate(authentication_url, show_authentication, switch_to_offline_mode = null) {
         await (await import("../Command/AuthenticateCommand.mjs")).AuthenticateCommand.new()
             .authenticate(
                 authentication_url,
-                show_authentication
+                show_authentication,
+                switch_to_offline_mode
             );
     }
 
     /**
-     * @param {startAuthentication} start_authentication
+     * @param {_authenticate} authenticate
      * @param {setHideAuthentication} set_hide_authentication
+     * @param {_authenticate | null} switch_to_offline_mode
      * @returns {Promise<void>}
      */
-    async showAuthentication(start_authentication, set_hide_authentication) {
+    async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
         if (this.#css_api === null) {
             throw new Error("Missing CssApi");
         }
@@ -80,8 +84,9 @@ export class AuthenticationService {
             this.#localization_api
         )
             .showAuthentication(
-                start_authentication,
-                set_hide_authentication
+                authenticate,
+                set_hide_authentication,
+                switch_to_offline_mode
             );
     }
 }

@@ -1,6 +1,6 @@
+/** @typedef {import("./authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
-/** @typedef {import("./startAuthentication.mjs").startAuthentication} startAuthentication */
 
 /**
- * @typedef {(start_authentication: startAuthentication, set_hide_authentication: setHideAuthentication) => Promise<void>} showAuthentication
+ * @typedef {(authenticate: _authenticate, set_hide_authentication: setHideAuthentication, switch_to_offline_mode: _authenticate | null) => Promise<void>} showAuthentication
  */

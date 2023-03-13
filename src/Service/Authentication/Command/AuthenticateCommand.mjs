@@ -3,6 +3,7 @@ import { AUTHENTICATION_SUCCESS } from "../../../Adapter/Authentication/AUTHENTI
 /** @typedef {import("../../../Adapter/Authentication/hideAuthentication.mjs").hideAuthentication} hideAuthentication */
 /** @typedef {import("../../../Adapter/Authentication/resetAuthentication.mjs").resetAuthentication} resetAuthentication */
 /** @typedef {import("../../../Adapter/Authentication/showAuthentication.mjs").showAuthentication} showAuthentication */
+/** @typedef {import("../../../Adapter/Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 export class AuthenticateCommand {
     /**
@@ -39,21 +40,27 @@ export class AuthenticateCommand {
     /**
      * @param {string} authentication_url
      * @param {showAuthentication} show_authentication
+     * @param {switchToOfflineMode | null} switch_to_offline_mode
      * @returns {Promise<void>}
      */
-    async authenticate(authentication_url, show_authentication) {
+    async authenticate(authentication_url, show_authentication, switch_to_offline_mode = null) {
         addEventListener("message", this);
 
         await show_authentication(
             () => {
-                this.#startAuthentication(
+                this.#authenticate(
                     authentication_url
                 );
             },
             (reset_authentication, hide_authentication) => {
                 this.#reset_authentication = reset_authentication;
                 this.#hide_authentication = hide_authentication;
-            }
+            },
+            switch_to_offline_mode !== null ? () => {
+                this.#switchToOfflineMode(
+                    switch_to_offline_mode
+                );
+            } : null
         );
 
         removeEventListener("message", this);
@@ -86,53 +93,10 @@ export class AuthenticateCommand {
     }
 
     /**
-     * @returns {void}
-     */
-    #clearInterval() {
-        if (this.#interval !== null) {
-            clearInterval(this.#interval);
-            this.#interval = null;
-        }
-
-        this.#popup = null;
-    }
-
-    /**
-     * @param {MessageEvent} e
-     * @returns {void}
-     */
-    #popupEvent(e) {
-        if (e.origin !== location.origin) {
-            return;
-        }
-
-        if (e.data !== AUTHENTICATION_SUCCESS) {
-            return;
-        }
-
-        if (this.#popup === null) {
-            return;
-        }
-
-        this.#clearInterval();
-
-        if (this.#hide_authentication === null) {
-            return;
-        }
-
-        const hide_authentication = this.#hide_authentication;
-
-        this.#reset_authentication = null;
-        this.#hide_authentication = null;
-
-        hide_authentication();
-    }
-
-    /**
      * @param {string} authentication_url
      * @returns {void}
      */
-    #startAuthentication(authentication_url) {
+    #authenticate(authentication_url) {
         if (this.#popup !== null) {
             return;
         }
@@ -154,5 +118,81 @@ export class AuthenticateCommand {
 
             this.#reset_authentication();
         }, 2_000);
+    }
+
+    /**
+     * @returns {void}
+     */
+    #clearInterval() {
+        if (this.#interval !== null) {
+            clearInterval(this.#interval);
+            this.#interval = null;
+        }
+
+        this.#popup = null;
+    }
+
+    /**
+     * @returns {hideAuthentication | null}
+     */
+    #getHideAuthentication() {
+        const hide_authentication = this.#hide_authentication;
+
+        this.#reset_authentication = null;
+        this.#hide_authentication = null;
+
+        return hide_authentication;
+    }
+
+    /**
+     * @param {MessageEvent} e
+     * @returns {void}
+     */
+    #popupEvent(e) {
+        if (e.origin !== location.origin) {
+            return;
+        }
+
+        if ((e.data ?? null) === null || typeof e.data !== "object") {
+            return;
+        }
+
+        switch (e.data.type) {
+            case AUTHENTICATION_SUCCESS: {
+                if (this.#popup === null) {
+                    return;
+                }
+
+                this.#clearInterval();
+
+                const hide_authentication = this.#getHideAuthentication();
+
+                if (hide_authentication === null) {
+                    return;
+                }
+
+                hide_authentication();
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * @param {switchToOfflineMode} switch_to_offline_mode
+     * @returns {Promise<void>}
+     */
+    async #switchToOfflineMode(switch_to_offline_mode) {
+        const hide_authentication = this.#getHideAuthentication();
+
+        if (hide_authentication === null) {
+            return;
+        }
+
+        await switch_to_offline_mode();
+
+        hide_authentication();
     }
 }

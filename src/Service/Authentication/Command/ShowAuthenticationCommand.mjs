@@ -1,8 +1,8 @@
+/** @typedef {import("../../../Adapter/Authentication/authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../../../../../flux-css-api/src/Adapter/Api/CssApi.mjs").CssApi} CssApi */
 /** @typedef {import("../../../../../flux-loading-api/src/Adapter/Api/LoadingApi.mjs").LoadingApi} LoadingApi */
 /** @typedef {import("../../../../../flux-localization-api/src/Adapter/Api/LocalizationApi.mjs").LocalizationApi} LocalizationApi */
 /** @typedef {import("../../../Adapter/Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
-/** @typedef {import("../../../Adapter/Authentication/startAuthentication.mjs").startAuthentication} startAuthentication */
 
 export class ShowAuthenticationCommand {
     /**
@@ -45,11 +45,12 @@ export class ShowAuthenticationCommand {
     }
 
     /**
-     * @param {startAuthentication} start_authentication
+     * @param {_authenticate} authenticate
      * @param {setHideAuthentication} set_hide_authentication
+     * @param {_authenticate | null} switch_to_offline_mode
      * @returns {Promise<void>}
      */
-    async showAuthentication(start_authentication, set_hide_authentication) {
+    async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
         const { AuthenticationElement } = await import("../../../Adapter/Authentication/AuthenticationElement.mjs");
 
         await new Promise(resolve => {
@@ -58,8 +59,11 @@ export class ShowAuthenticationCommand {
                 this.#loading_api,
                 this.#localization_api,
                 () => {
-                    start_authentication();
-                }
+                    authenticate();
+                },
+                switch_to_offline_mode !== null ? () => {
+                    switch_to_offline_mode();
+                } : null
             );
 
             document.body.appendChild(authentication_element);
