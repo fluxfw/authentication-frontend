@@ -1,9 +1,9 @@
-import { AUTHENTICATION_SUCCESS } from "../../../Adapter/Authentication/AUTHENTICATION_SUCCESS.mjs";
+import { AUTHENTICATION_SUCCESS } from "../AUTHENTICATION_SUCCESS.mjs";
 
-/** @typedef {import("../../../Adapter/Authentication/hideAuthentication.mjs").hideAuthentication} hideAuthentication */
-/** @typedef {import("../../../Adapter/Authentication/resetAuthentication.mjs").resetAuthentication} resetAuthentication */
-/** @typedef {import("../../../Adapter/Authentication/showAuthentication.mjs").showAuthentication} showAuthentication */
-/** @typedef {import("../../../Adapter/Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
+/** @typedef {import("../hideAuthentication.mjs").hideAuthentication} hideAuthentication */
+/** @typedef {import("../resetAuthentication.mjs").resetAuthentication} resetAuthentication */
+/** @typedef {import("../showAuthentication.mjs").showAuthentication} showAuthentication */
+/** @typedef {import("../switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 export class AuthenticateCommand {
     /**

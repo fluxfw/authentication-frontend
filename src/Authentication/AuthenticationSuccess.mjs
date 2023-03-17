@@ -9,6 +9,6 @@ if (opener !== null) {
 
     close();
 } else {
-    //location.replace(`${__dirname}/../../../../..`);
+    //location.replace(`${__dirname}/../../../..`);
     location.replace("/");
 }

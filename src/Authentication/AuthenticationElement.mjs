@@ -1,10 +1,10 @@
 import { AUTHENTICATION_LOCALIZATION_MODULE } from "../Localization/_LOCALIZATION_MODULE.mjs";
 
 /** @typedef {import("./authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("../../../../flux-css-api/src/Adapter/Api/CssApi.mjs").CssApi} CssApi */
-/** @typedef {import("../../../../flux-loading-api/src/Adapter/Api/LoadingApi.mjs").LoadingApi} LoadingApi */
-/** @typedef {import("../../../../flux-loading-api/src/Adapter/Loading/LoadingElement.mjs").LoadingElement} LoadingElement */
-/** @typedef {import("../../../../flux-localization-api/src/Adapter/Api/LocalizationApi.mjs").LocalizationApi} LocalizationApi */
+/** @typedef {import("../../../flux-css-api/src/FluxCssApi.mjs").FluxCssApi} FluxCssApi */
+/** @typedef {import("../../../flux-loading-api/src/FluxLoadingApi.mjs").FluxLoadingApi} FluxLoadingApi */
+/** @typedef {import("../../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
+/** @typedef {import("../../../flux-loading-api/src/Loading/LoadingElement.mjs").LoadingElement} LoadingElement */
 
 const __dirname = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"));
 
@@ -18,21 +18,21 @@ export class AuthenticationElement extends HTMLElement {
      */
     #container_element;
     /**
-     * @type {CssApi}
+     * @type {FluxCssApi}
      */
-    #css_api;
+    #flux_css_api;
+    /**
+     * @type {FluxLoadingApi}
+     */
+    #flux_loading_api;
+    /**
+     * @type {FluxLocalizationApi}
+     */
+    #flux_localization_api;
     /**
      * @type {LoadingElement | null}
      */
     #loading_element = null;
-    /**
-     * @type {LoadingApi}
-     */
-    #loading_api;
-    /**
-     * @type {LocalizationApi}
-     */
-    #localization_api;
     /**
      * @type {ShadowRoot}
      */
@@ -43,42 +43,42 @@ export class AuthenticationElement extends HTMLElement {
     #switch_to_offline_mode;
 
     /**
-     * @param {CssApi} css_api
-     * @param {LoadingApi} loading_api
-     * @param {LocalizationApi} localization_api
+     * @param {FluxCssApi} flux_css_api
+     * @param {FluxLoadingApi} flux_loading_api
+     * @param {FluxLocalizationApi} flux_localization_api
      * @param {_authenticate} authenticate
      * @param {_authenticate | null} switch_to_offline_mode
      * @returns {AuthenticationElement}
      */
-    static new(css_api, loading_api, localization_api, authenticate, switch_to_offline_mode = null) {
+    static new(flux_css_api, flux_loading_api, flux_localization_api, authenticate, switch_to_offline_mode = null) {
         return new this(
-            css_api,
-            loading_api,
-            localization_api,
+            flux_css_api,
+            flux_loading_api,
+            flux_localization_api,
             authenticate,
             switch_to_offline_mode
         );
     }
 
     /**
-     * @param {CssApi} css_api
-     * @param {LoadingApi} loading_api
-     * @param {LocalizationApi} localization_api
+     * @param {FluxCssApi} flux_css_api
+     * @param {FluxLoadingApi} flux_loading_api
+     * @param {FluxLocalizationApi} flux_localization_api
      * @param {_authenticate} authenticate
      * @param {_authenticate | null} switch_to_offline_mode
      * @private
      */
-    constructor(css_api, loading_api, localization_api, authenticate, switch_to_offline_mode) {
+    constructor(flux_css_api, flux_loading_api, flux_localization_api, authenticate, switch_to_offline_mode) {
         super();
 
-        this.#css_api = css_api;
-        this.#loading_api = loading_api;
-        this.#localization_api = localization_api;
+        this.#flux_css_api = flux_css_api;
+        this.#flux_loading_api = flux_loading_api;
+        this.#flux_localization_api = flux_localization_api;
         this.#authenticate = authenticate;
         this.#switch_to_offline_mode = switch_to_offline_mode;
 
         this.#shadow = this.attachShadow({ mode: "closed" });
-        this.#css_api.importCssToRoot(
+        this.#flux_css_api.importCssToRoot(
             this.#shadow,
             `${__dirname}/${this.constructor.name}.css`
         );
@@ -111,7 +111,7 @@ export class AuthenticationElement extends HTMLElement {
         buttons_element.classList.add("buttons");
 
         const authenticate_button_element = document.createElement("button");
-        authenticate_button_element.innerText = await this.#localization_api.translate(
+        authenticate_button_element.innerText = await this.#flux_localization_api.translate(
             "Authenticate",
             AUTHENTICATION_LOCALIZATION_MODULE
         );
@@ -125,7 +125,7 @@ export class AuthenticationElement extends HTMLElement {
 
         if (this.#switch_to_offline_mode !== null) {
             const switch_to_offline_mode_button_element = document.createElement("button");
-            switch_to_offline_mode_button_element.innerText = await this.#localization_api.translate(
+            switch_to_offline_mode_button_element.innerText = await this.#flux_localization_api.translate(
                 "Switch to offline mode",
                 AUTHENTICATION_LOCALIZATION_MODULE
             );
@@ -154,7 +154,7 @@ export class AuthenticationElement extends HTMLElement {
             button_element.disabled = true;
         }
 
-        this.#container_element.appendChild(this.#loading_element = await this.#loading_api.getLoadingElement());
+        this.#container_element.appendChild(this.#loading_element = await this.#flux_loading_api.getLoadingElement());
 
         authenticate();
     }
