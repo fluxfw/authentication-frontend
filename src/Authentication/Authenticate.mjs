@@ -1,11 +1,11 @@
-import { AUTHENTICATION_SUCCESS } from "../AUTHENTICATION_SUCCESS.mjs";
+import { AUTHENTICATION_SUCCESS } from "./AUTHENTICATION_SUCCESS.mjs";
 
-/** @typedef {import("../hideAuthentication.mjs").hideAuthentication} hideAuthentication */
-/** @typedef {import("../resetAuthentication.mjs").resetAuthentication} resetAuthentication */
-/** @typedef {import("../showAuthentication.mjs").showAuthentication} showAuthentication */
-/** @typedef {import("../switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
+/** @typedef {import("./hideAuthentication.mjs").hideAuthentication} hideAuthentication */
+/** @typedef {import("./resetAuthentication.mjs").resetAuthentication} resetAuthentication */
+/** @typedef {import("./_showAuthentication.mjs").showAuthentication} showAuthentication */
+/** @typedef {import("./switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
-export class AuthenticateCommand {
+export class Authenticate {
     /**
      * @type {hideAuthentication | null}
      */
@@ -24,7 +24,7 @@ export class AuthenticateCommand {
     #reset_authentication = null;
 
     /**
-     * @returns {AuthenticateCommand}
+     * @returns {Authenticate}
      */
     static new() {
         return new this();

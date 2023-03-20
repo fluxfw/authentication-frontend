@@ -1,21 +1,16 @@
 import { AUTHENTICATION_LOCALIZATION_MODULE } from "./Localization/_LOCALIZATION_MODULE.mjs";
 
-/** @typedef {import("./Authentication/authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("./Authentication/Port/AuthenticationService.mjs").AuthenticationService} AuthenticationService */
+/** @typedef {import("./Authentication/_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../../flux-css-api/src/FluxCssApi.mjs").FluxCssApi} FluxCssApi */
 /** @typedef {import("../../flux-loading-api/src/FluxLoadingApi.mjs").FluxLoadingApi} FluxLoadingApi */
 /** @typedef {import("../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
 /** @typedef {import("./Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
-/** @typedef {import("./Authentication/showAuthentication.mjs").showAuthentication} showAuthentication */
+/** @typedef {import("./Authentication/_showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("./Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 const __dirname = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"));
 
 export class FluxAuthenticationFrontend {
-    /**
-     * @type {AuthenticationService | null}
-     */
-    #authentication_service = null;
     /**
      * @type {FluxCssApi | null}
      */
@@ -81,11 +76,12 @@ export class FluxAuthenticationFrontend {
      * @returns {Promise<void>}
      */
     async authenticate(authentication_url, show_authentication, switch_to_offline_mode = null) {
-        await (await this.#getAuthenticationService()).authenticate(
-            authentication_url,
-            show_authentication,
-            switch_to_offline_mode
-        );
+        await (await import("./Authentication/Authenticate.mjs")).Authenticate.new()
+            .authenticate(
+                authentication_url,
+                show_authentication,
+                switch_to_offline_mode
+            );
     }
 
     /**
@@ -95,23 +91,25 @@ export class FluxAuthenticationFrontend {
      * @returns {Promise<void>}
      */
     async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
-        await (await this.#getAuthenticationService()).showAuthentication(
-            authenticate,
-            set_hide_authentication,
-            switch_to_offline_mode
-        );
-    }
+        if (this.#flux_css_api === null) {
+            throw new Error("Missing FluxCssApi");
+        }
+        if (this.#flux_loading_api === null) {
+            throw new Error("Missing FluxLoadingApi");
+        }
+        if (this.#flux_localization_api === null) {
+            throw new Error("Missing FluxLocalizationApi");
+        }
 
-    /**
-     * @returns {Promise<AuthenticationService>}
-     */
-    async #getAuthenticationService() {
-        this.#authentication_service ??= (await import("./Authentication/Port/AuthenticationService.mjs")).AuthenticationService.new(
+        await (await import("./Authentication/ShowAuthentication.mjs")).ShowAuthentication.new(
             this.#flux_css_api,
             this.#flux_loading_api,
             this.#flux_localization_api
-        );
-
-        return this.#authentication_service;
+        )
+            .showAuthentication(
+                authenticate,
+                set_hide_authentication,
+                switch_to_offline_mode
+            );
     }
 }

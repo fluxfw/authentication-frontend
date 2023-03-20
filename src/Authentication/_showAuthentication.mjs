@@ -1,4 +1,4 @@
-/** @typedef {import("./authenticate.mjs").authenticate} _authenticate */
+/** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 
 /**
