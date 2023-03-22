@@ -1,7 +1,5 @@
 import { AUTHENTICATION_SUCCESS } from "./AUTHENTICATION_SUCCESS.mjs";
 
-//const __dirname = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"));
-
 if (opener !== null) {
     opener.postMessage({
         type: AUTHENTICATION_SUCCESS
@@ -9,6 +7,6 @@ if (opener !== null) {
 
     close();
 } else {
-    //location.replace(`${__dirname}/../../../..`);
+    //location.replace(`${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/../../../..`);
     location.replace("/");
 }

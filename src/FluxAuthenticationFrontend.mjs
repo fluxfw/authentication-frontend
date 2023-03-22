@@ -7,25 +7,6 @@ import { AUTHENTICATION_LOCALIZATION_MODULE } from "./Localization/_LOCALIZATION
 /** @typedef {import("./Authentication/_showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("./Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
-const __dirname = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"));
-
-let flux_css_api = null;
-try {
-    ({
-        flux_css_api
-    } = await import("../../flux-css-api/src/FluxCssApi.mjs"));
-} catch (error) {
-    //console.error(error);
-}
-if (flux_css_api !== null) {
-    flux_css_api.adopt(
-        document,
-        await flux_css_api.import(
-            `${__dirname}/Authentication/AuthenticationVariables.css`
-        )
-    );
-}
-
 export class FluxAuthenticationFrontend {
     /**
      * @type {FluxLoadingApi | null}
@@ -58,7 +39,7 @@ export class FluxAuthenticationFrontend {
         this.#flux_localization_api = flux_localization_api;
 
         this.#flux_localization_api.addModule(
-            `${__dirname}/Localization`,
+            `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/Localization`,
             AUTHENTICATION_LOCALIZATION_MODULE
         );
     }

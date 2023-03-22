@@ -6,10 +6,16 @@ import { flux_css_api } from "../../../flux-css-api/src/FluxCssApi.mjs";
 /** @typedef {import("../../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
 /** @typedef {import("../../../flux-loading-api/src/Loading/LoadingElement.mjs").LoadingElement} LoadingElement */
 
-const __dirname = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"));
+flux_css_api.adopt(
+    document,
+    await flux_css_api.import(
+        `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/AuthenticationVariables.css`
+    ),
+    true
+);
 
 const css = await flux_css_api.import(
-    `${__dirname}/AuthenticationElement.css`
+    `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/AuthenticationElement.css`
 );
 
 export class AuthenticationElement extends HTMLElement {
