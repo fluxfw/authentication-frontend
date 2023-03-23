@@ -14,8 +14,8 @@
 
 .container {
     align-items: center;
-    background-color: var(--authentication-background-color);
-    color: var(--authentication-foreground-color);
+    background-color: var(--flux-authentication-background-color);
+    color: var(--flux-authentication-foreground-color);
     height: auto;
     max-width: calc(100% - 20px);
     padding: 10px;
@@ -23,7 +23,7 @@
 }
 
 flux-loading-spinner {
-    --flux-loading-spinner-color: var(--authentication-foreground-color);
+    --flux-loading-spinner-color: var(--flux-authentication-foreground-color);
 }
 
 .buttons {
@@ -37,10 +37,10 @@ flux-loading-spinner {
 
 button {
     -webkit-tap-highlight-color: transparent;
-    background-color: var(--authentication-button-background-color);
+    background-color: var(--flux-authentication-button-background-color);
     border: none;
     border-radius: 0;
-    color: var(--authentication-button-foreground-color);
+    color: var(--flux-authentication-button-foreground-color);
     font-size: 16px;
     height: 30px;
     line-height: 30px;
@@ -61,6 +61,6 @@ button:disabled {
 
 button:not(:disabled):hover,
 button:not(:disabled):active {
-    background-color: var(--authentication-active-button-background-color);
-    color: var(--authentication-active-button-foreground-color);
+    background-color: var(--flux-authentication-active-button-background-color);
+    color: var(--flux-authentication-active-button-foreground-color);
 }

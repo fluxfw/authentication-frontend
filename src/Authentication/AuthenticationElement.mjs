@@ -8,7 +8,7 @@ import { flux_css_api } from "../../../flux-css-api/src/FluxCssApi.mjs";
 flux_css_api.adopt(
     document,
     await flux_css_api.import(
-        `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/AuthenticationVariables.css`
+        `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/AuthenticationElementVariables.css`
     ),
     true
 );
@@ -70,7 +70,10 @@ export class AuthenticationElement extends HTMLElement {
         this.#authenticate = authenticate;
         this.#switch_to_offline_mode = switch_to_offline_mode;
 
-        this.#shadow = this.attachShadow({ mode: "closed" });
+        this.#shadow = this.attachShadow({
+            mode: "closed"
+        });
+
         flux_css_api.adopt(
             this.#shadow,
             css

@@ -1,0 +1,8 @@
+:root {
+    --flux-authentication-active-button-background-color: var(--flux-color-scheme-foreground, #000000);
+    --flux-authentication-active-button-foreground-color: var(--flux-color-scheme-background, #ffffff);
+    --flux-authentication-background-color: var(--flux-color-scheme-accent, #000000);
+    --flux-authentication-button-background-color: var(--flux-color-scheme-background, #ffffff);
+    --flux-authentication-button-foreground-color: var(--flux-color-scheme-foreground, #000000);
+    --flux-authentication-foreground-color: var(--flux-color-scheme-accent-foreground, #ffffff);
+}

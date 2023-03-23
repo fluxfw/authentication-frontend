@@ -1,8 +1,0 @@
-:root {
-    --authentication-active-button-background-color: var(--color-scheme-foreground, #000000);
-    --authentication-active-button-foreground-color: var(--color-scheme-background, #ffffff);
-    --authentication-background-color: var(--color-scheme-accent, #000000);
-    --authentication-button-background-color: var(--color-scheme-background, #ffffff);
-    --authentication-button-foreground-color: var(--color-scheme-foreground, #000000);
-    --authentication-foreground-color: var(--color-scheme-accent-foreground, #ffffff);
-}
