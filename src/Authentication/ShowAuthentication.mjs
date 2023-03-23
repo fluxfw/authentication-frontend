@@ -1,37 +1,28 @@
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("../../../flux-loading-api/src/FluxLoadingApi.mjs").FluxLoadingApi} FluxLoadingApi */
 /** @typedef {import("../../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
 /** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 
 export class ShowAuthentication {
-    /**
-     * @type {FluxLoadingApi}
-     */
-    #flux_loading_api;
     /**
      * @type {FluxLocalizationApi}
      */
     #flux_localization_api;
 
     /**
-     * @param {FluxLoadingApi} flux_loading_api
      * @param {FluxLocalizationApi} flux_localization_api
      * @returns {ShowAuthentication}
      */
-    static new(flux_loading_api, flux_localization_api) {
+    static new(flux_localization_api) {
         return new this(
-            flux_loading_api,
             flux_localization_api
         );
     }
 
     /**
-     * @param {FluxLoadingApi} flux_loading_api
      * @param {FluxLocalizationApi} flux_localization_api
      * @private
      */
-    constructor(flux_loading_api, flux_localization_api) {
-        this.#flux_loading_api = flux_loading_api;
+    constructor(flux_localization_api) {
         this.#flux_localization_api = flux_localization_api;
     }
 
@@ -46,7 +37,6 @@ export class ShowAuthentication {
 
         await new Promise(resolve => {
             const authentication_element = AuthenticationElement.new(
-                this.#flux_loading_api,
                 this.#flux_localization_api,
                 () => {
                     authenticate();

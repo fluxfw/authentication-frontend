@@ -22,8 +22,8 @@
     width: auto;
 }
 
-flux-loading {
-    --loading-color: var(--authentication-foreground-color);
+flux-loading-spinner {
+    --flux-loading-spinner-color: var(--authentication-foreground-color);
 }
 
 .buttons {

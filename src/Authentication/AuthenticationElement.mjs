@@ -2,9 +2,8 @@ import { AUTHENTICATION_LOCALIZATION_MODULE } from "../Localization/_LOCALIZATIO
 import { flux_css_api } from "../../../flux-css-api/src/FluxCssApi.mjs";
 
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("../../../flux-loading-api/src/FluxLoadingApi.mjs").FluxLoadingApi} FluxLoadingApi */
+/** @typedef {import("../../../flux-loading-spinner/src/FluxLoadingSpinnerElement.mjs").FluxLoadingSpinnerElement} FluxLoadingSpinnerElement */
 /** @typedef {import("../../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
-/** @typedef {import("../../../flux-loading-api/src/Loading/LoadingElement.mjs").LoadingElement} LoadingElement */
 
 flux_css_api.adopt(
     document,
@@ -28,17 +27,13 @@ export class AuthenticationElement extends HTMLElement {
      */
     #container_element;
     /**
-     * @type {FluxLoadingApi}
+     * @type {FluxLoadingSpinnerElement | null}
      */
-    #flux_loading_api;
+    #flux_loading_spinner_element = null;
     /**
      * @type {FluxLocalizationApi}
      */
     #flux_localization_api;
-    /**
-     * @type {LoadingElement | null}
-     */
-    #loading_element = null;
     /**
      * @type {ShadowRoot}
      */
@@ -49,15 +44,13 @@ export class AuthenticationElement extends HTMLElement {
     #switch_to_offline_mode;
 
     /**
-     * @param {FluxLoadingApi} flux_loading_api
      * @param {FluxLocalizationApi} flux_localization_api
      * @param {_authenticate} authenticate
      * @param {_authenticate | null} switch_to_offline_mode
      * @returns {AuthenticationElement}
      */
-    static new(flux_loading_api, flux_localization_api, authenticate, switch_to_offline_mode = null) {
+    static new(flux_localization_api, authenticate, switch_to_offline_mode = null) {
         return new this(
-            flux_loading_api,
             flux_localization_api,
             authenticate,
             switch_to_offline_mode
@@ -65,16 +58,14 @@ export class AuthenticationElement extends HTMLElement {
     }
 
     /**
-     * @param {FluxLoadingApi} flux_loading_api
      * @param {FluxLocalizationApi} flux_localization_api
      * @param {_authenticate} authenticate
      * @param {_authenticate | null} switch_to_offline_mode
      * @private
      */
-    constructor(flux_loading_api, flux_localization_api, authenticate, switch_to_offline_mode) {
+    constructor(flux_localization_api, authenticate, switch_to_offline_mode) {
         super();
 
-        this.#flux_loading_api = flux_loading_api;
         this.#flux_localization_api = flux_localization_api;
         this.#authenticate = authenticate;
         this.#switch_to_offline_mode = switch_to_offline_mode;
@@ -96,9 +87,9 @@ export class AuthenticationElement extends HTMLElement {
             button_element.disabled = false;
         }
 
-        if (this.#loading_element !== null) {
-            this.#loading_element.remove();
-            this.#loading_element = null;
+        if (this.#flux_loading_spinner_element !== null) {
+            this.#flux_loading_spinner_element.remove();
+            this.#flux_loading_spinner_element = null;
         }
     }
 
@@ -156,7 +147,7 @@ export class AuthenticationElement extends HTMLElement {
             button_element.disabled = true;
         }
 
-        this.#container_element.appendChild(this.#loading_element = await this.#flux_loading_api.getLoadingElement());
+        this.#container_element.appendChild(this.#flux_loading_spinner_element = (await import("../../../flux-loading-spinner/src/FluxLoadingSpinnerElement.mjs")).FluxLoadingSpinnerElement.new());
 
         authenticate();
     }
