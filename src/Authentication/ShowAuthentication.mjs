@@ -52,6 +52,7 @@ export class ShowAuthentication {
                 AUTHENTICATION_LOCALIZATION_MODULE
             ),
             null,
+            null,
             [
                 {
                     label: await this.#flux_localization_api.translate(
@@ -74,13 +75,9 @@ export class ShowAuthentication {
 
         flux_overlay_element.style.setProperty("--flux-overlay-z-index", 1000);
 
-        flux_overlay_element.addEventListener(FLUX_OVERLAY_BUTTON_CLICK_EVENT, e => {
-            flux_overlay_element.buttons = flux_overlay_element.buttons.map(button => ({
-                ...button,
-                disabled: true
-            }));
-
-            flux_overlay_element.loading = true;
+        flux_overlay_element.addEventListener(FLUX_OVERLAY_BUTTON_CLICK_EVENT, async e => {
+            flux_overlay_element.buttons = true;
+            await flux_overlay_element.showLoading();
 
             switch (e.detail.value) {
                 case "authenticate":
@@ -96,16 +93,14 @@ export class ShowAuthentication {
             }
         });
 
-        document.body.appendChild(flux_overlay_element);
+        flux_overlay_element.show();
 
         set_hide_authentication(
-            () => {
-                flux_overlay_element.buttons = flux_overlay_element.buttons.map(button => ({
-                    ...button,
-                    disabled: false
-                }));
-
-                flux_overlay_element.loading = false;
+            async () => {
+                flux_overlay_element.buttons = false;
+                await flux_overlay_element.showLoading(
+                    false
+                );
             },
             () => {
                 flux_overlay_element.remove();
