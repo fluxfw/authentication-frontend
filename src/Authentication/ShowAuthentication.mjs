@@ -79,7 +79,7 @@ export class ShowAuthentication {
             flux_overlay_element.buttons = true;
             await flux_overlay_element.showLoading();
 
-            switch (e.detail.value) {
+            switch (e.detail.button) {
                 case "authenticate":
                     authenticate();
                     break;
