@@ -54,13 +54,6 @@ export class ShowAuthentication {
             null,
             null,
             [
-                {
-                    label: await this.#flux_localization_api.translate(
-                        "Authenticate",
-                        AUTHENTICATION_LOCALIZATION_MODULE
-                    ),
-                    value: "authenticate"
-                },
                 ...switch_to_offline_mode !== null ? [
                     {
                         label: await this.#flux_localization_api.translate(
@@ -69,7 +62,14 @@ export class ShowAuthentication {
                         ),
                         value: "switch-to-offline-mode"
                     }
-                ] : []
+                ] : [],
+                {
+                    label: await this.#flux_localization_api.translate(
+                        "Authenticate",
+                        AUTHENTICATION_LOCALIZATION_MODULE
+                    ),
+                    value: "authenticate"
+                }
             ]
         );
 
@@ -77,6 +77,7 @@ export class ShowAuthentication {
 
         flux_overlay_element.addEventListener(FLUX_OVERLAY_BUTTON_CLICK_EVENT, async e => {
             flux_overlay_element.buttons = true;
+
             await flux_overlay_element.showLoading();
 
             switch (e.detail.button) {
@@ -98,6 +99,7 @@ export class ShowAuthentication {
         set_hide_authentication(
             async () => {
                 flux_overlay_element.buttons = false;
+
                 await flux_overlay_element.showLoading(
                     false
                 );
