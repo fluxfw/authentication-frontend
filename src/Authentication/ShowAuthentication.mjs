@@ -52,7 +52,6 @@ export class ShowAuthentication {
                 AUTHENTICATION_LOCALIZATION_MODULE
             ),
             null,
-            null,
             [
                 ...switch_to_offline_mode !== null ? [
                     {
