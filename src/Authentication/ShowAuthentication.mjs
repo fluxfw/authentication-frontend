@@ -42,7 +42,9 @@ export class ShowAuthentication {
         });
 
         const {
-            FLUX_OVERLAY_BUTTON_CLICK_EVENT,
+            FLUX_OVERLAY_EVENT_BUTTON_CLICK
+        } = await import("../../../flux-overlay/src/FLUX_OVERLAY_EVENT.mjs");
+        const {
             FluxOverlayElement
         } = await import("../../../flux-overlay/src/FluxOverlayElement.mjs");
 
@@ -74,7 +76,7 @@ export class ShowAuthentication {
 
         flux_overlay_element.style.setProperty("--flux-overlay-z-index", 1000);
 
-        flux_overlay_element.addEventListener(FLUX_OVERLAY_BUTTON_CLICK_EVENT, async e => {
+        flux_overlay_element.addEventListener(FLUX_OVERLAY_EVENT_BUTTON_CLICK, async e => {
             flux_overlay_element.buttons = true;
 
             await flux_overlay_element.showLoading();
