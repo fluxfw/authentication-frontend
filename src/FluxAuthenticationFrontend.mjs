@@ -1,38 +1,42 @@
-import { AUTHENTICATION_LOCALIZATION_MODULE } from "./Localization/_LOCALIZATION_MODULE.mjs";
+import { LOCALIZATION_MODULE_AUTHENTICATION } from "./Localization/LOCALIZATION_MODULE.mjs";
 
 /** @typedef {import("./Authentication/_authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
+/** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
 /** @typedef {import("./Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 /** @typedef {import("./Authentication/_showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("./Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 export class FluxAuthenticationFrontend {
     /**
-     * @type {FluxLocalizationApi | null}
+     * @type {Localization | null}
      */
-    #flux_localization_api;
+    #localization;
 
     /**
-     * @param {FluxLocalizationApi | null} flux_localization_api
-     * @returns {FluxAuthenticationFrontend}
+     * @param {Localization | null} localization
+     * @returns {Promise<FluxAuthenticationFrontend>}
      */
-    static new(flux_localization_api = null) {
-        return new this(
-            flux_localization_api
+    static async new(localization = null) {
+        const flux_authentication_frontend = new this(
+            localization
         );
+
+        if (flux_authentication_frontend.#localization !== null) {
+            await flux_authentication_frontend.#localization.addModule(
+                `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/Localization`,
+                LOCALIZATION_MODULE_AUTHENTICATION
+            );
+        }
+
+        return flux_authentication_frontend;
     }
 
     /**
-     * @param {FluxLocalizationApi | null} flux_localization_api
+     * @param {Localization | null} localization
      * @private
      */
-    constructor(flux_localization_api) {
-        this.#flux_localization_api = flux_localization_api;
-
-        this.#flux_localization_api.addModule(
-            `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/Localization`,
-            AUTHENTICATION_LOCALIZATION_MODULE
-        );
+    constructor(localization) {
+        this.#localization = localization;
     }
 
     /**
@@ -57,12 +61,12 @@ export class FluxAuthenticationFrontend {
      * @returns {Promise<void>}
      */
     async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
-        if (this.#flux_localization_api === null) {
-            throw new Error("Missing FluxLocalizationApi");
+        if (this.#localization === null) {
+            throw new Error("Missing Localization");
         }
 
         await (await import("./Authentication/ShowAuthentication.mjs")).ShowAuthentication.new(
-            this.#flux_localization_api
+            this.#localization
         )
             .showAuthentication(
                 authenticate,

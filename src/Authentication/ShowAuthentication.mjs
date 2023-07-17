@@ -1,31 +1,31 @@
-import { AUTHENTICATION_LOCALIZATION_MODULE } from "../Localization/_LOCALIZATION_MODULE.mjs";
+import { LOCALIZATION_MODULE_AUTHENTICATION } from "../Localization/LOCALIZATION_MODULE.mjs";
 
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("../../../flux-localization-api/src/FluxLocalizationApi.mjs").FluxLocalizationApi} FluxLocalizationApi */
+/** @typedef {import("../Localization/Localization.mjs").Localization} Localization */
 /** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 
 export class ShowAuthentication {
     /**
-     * @type {FluxLocalizationApi}
+     * @type {Localization}
      */
-    #flux_localization_api;
+    #localization;
 
     /**
-     * @param {FluxLocalizationApi} flux_localization_api
+     * @param {Localization} localization
      * @returns {ShowAuthentication}
      */
-    static new(flux_localization_api) {
+    static new(localization) {
         return new this(
-            flux_localization_api
+            localization
         );
     }
 
     /**
-     * @param {FluxLocalizationApi} flux_localization_api
+     * @param {Localization} localization
      * @private
      */
-    constructor(flux_localization_api) {
-        this.#flux_localization_api = flux_localization_api;
+    constructor(localization) {
+        this.#localization = localization;
     }
 
     /**
@@ -49,25 +49,25 @@ export class ShowAuthentication {
         } = await import("../../../flux-overlay/src/FluxOverlayElement.mjs");
 
         const flux_overlay_element = FluxOverlayElement.new(
-            await this.#flux_localization_api.translate(
+            await this.#localization.translate(
                 "Authentication required",
-                AUTHENTICATION_LOCALIZATION_MODULE
+                LOCALIZATION_MODULE_AUTHENTICATION
             ),
             null,
             [
                 ...switch_to_offline_mode !== null ? [
                     {
-                        label: await this.#flux_localization_api.translate(
+                        label: await this.#localization.translate(
                             "Switch to offline mode",
-                            AUTHENTICATION_LOCALIZATION_MODULE
+                            LOCALIZATION_MODULE_AUTHENTICATION
                         ),
                         value: "switch-to-offline-mode"
                     }
                 ] : [],
                 {
-                    label: await this.#flux_localization_api.translate(
+                    label: await this.#localization.translate(
                         "Authenticate",
-                        AUTHENTICATION_LOCALIZATION_MODULE
+                        LOCALIZATION_MODULE_AUTHENTICATION
                     ),
                     value: "authenticate"
                 }
