@@ -1,4 +1,5 @@
-import { LOCALIZATION_MODULE_AUTHENTICATION } from "../Localization/LOCALIZATION_MODULE.mjs";
+import { LOCALIZATION_MODULE } from "../Localization/LOCALIZATION_MODULE.mjs";
+import { LOCALIZATION_KEY_AUTHENTICATE, LOCALIZATION_KEY_AUTHENTICATION_REQUIRED, LOCALIZATION_KEY_SWITCH_TO_OFFLINE_MODE } from "../Localization/LOCALIZATION_KEY.mjs";
 
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../Localization/Localization.mjs").Localization} Localization */
@@ -50,24 +51,25 @@ export class ShowAuthentication {
 
         const flux_overlay_element = FluxOverlayElement.new(
             await this.#localization.translate(
-                "Authentication required",
-                LOCALIZATION_MODULE_AUTHENTICATION
+                LOCALIZATION_MODULE,
+                LOCALIZATION_KEY_AUTHENTICATION_REQUIRED
             ),
             null,
             [
                 ...switch_to_offline_mode !== null ? [
                     {
                         label: await this.#localization.translate(
-                            "Switch to offline mode",
-                            LOCALIZATION_MODULE_AUTHENTICATION
+                            LOCALIZATION_MODULE,
+                            LOCALIZATION_KEY_SWITCH_TO_OFFLINE_MODE
+
                         ),
                         value: "switch-to-offline-mode"
                     }
                 ] : [],
                 {
                     label: await this.#localization.translate(
-                        "Authenticate",
-                        LOCALIZATION_MODULE_AUTHENTICATION
+                        LOCALIZATION_MODULE,
+                        LOCALIZATION_KEY_AUTHENTICATE
                     ),
                     value: "authenticate"
                 }

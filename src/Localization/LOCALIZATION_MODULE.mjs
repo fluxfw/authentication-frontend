@@ -1,1 +1,1 @@
-export const LOCALIZATION_MODULE_AUTHENTICATION = "authentication";
+export const LOCALIZATION_MODULE = "flux-authentication-frontend";

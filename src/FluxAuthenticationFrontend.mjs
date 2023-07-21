@@ -1,4 +1,5 @@
-import { LOCALIZATION_MODULE_AUTHENTICATION } from "./Localization/LOCALIZATION_MODULE.mjs";
+import { LOCALIZATION_MODULE } from "./Localization/LOCALIZATION_MODULE.mjs";
+import { LOCALIZATIONS } from "./Localization/LOCALIZATIONS.mjs";
 
 /** @typedef {import("./Authentication/_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
@@ -23,8 +24,8 @@ export class FluxAuthenticationFrontend {
 
         if (flux_authentication_frontend.#localization !== null) {
             await flux_authentication_frontend.#localization.addModule(
-                `${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/Localization`,
-                LOCALIZATION_MODULE_AUTHENTICATION
+                LOCALIZATION_MODULE,
+                LOCALIZATIONS
             );
         }
 
