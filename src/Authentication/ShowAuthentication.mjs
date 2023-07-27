@@ -4,29 +4,38 @@ import { LOCALIZATION_KEY_AUTHENTICATE, LOCALIZATION_KEY_AUTHENTICATION_REQUIRED
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../Localization/Localization.mjs").Localization} Localization */
 /** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
+/** @typedef {import("../StyleSheetManager/StyleSheetManager.mjs").StyleSheetManager} StyleSheetManager */
 
 export class ShowAuthentication {
     /**
      * @type {Localization}
      */
     #localization;
+    /**
+     * @type {StyleSheetManager | null}
+     */
+    #style_sheet_manager;
 
     /**
      * @param {Localization} localization
+     * @param {StyleSheetManager | null} style_sheet_manager
      * @returns {ShowAuthentication}
      */
-    static new(localization) {
+    static new(localization, style_sheet_manager = null) {
         return new this(
-            localization
+            localization,
+            style_sheet_manager
         );
     }
 
     /**
      * @param {Localization} localization
+     * @param {StyleSheetManager | null} style_sheet_manager
      * @private
      */
-    constructor(localization) {
+    constructor(localization, style_sheet_manager) {
         this.#localization = localization;
+        this.#style_sheet_manager = style_sheet_manager;
     }
 
     /**
@@ -43,13 +52,12 @@ export class ShowAuthentication {
         });
 
         const {
-            FLUX_OVERLAY_EVENT_BUTTON_CLICK
-        } = await import("../../../flux-overlay/src/FLUX_OVERLAY_EVENT.mjs");
-        const {
+            FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
+            FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX,
             FluxOverlayElement
         } = await import("../../../flux-overlay/src/FluxOverlayElement.mjs");
 
-        const flux_overlay_element = FluxOverlayElement.new(
+        const flux_overlay_element = await FluxOverlayElement.new(
             await this.#localization.translate(
                 LOCALIZATION_MODULE,
                 LOCALIZATION_KEY_AUTHENTICATION_REQUIRED
@@ -73,12 +81,13 @@ export class ShowAuthentication {
                     ),
                     value: "authenticate"
                 }
-            ]
+            ],
+            this.#style_sheet_manager
         );
 
-        flux_overlay_element.style.setProperty("--flux-overlay-z-index", 1000);
+        flux_overlay_element.style.setProperty(`${FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX}z-index`, 1000);
 
-        flux_overlay_element.addEventListener(FLUX_OVERLAY_EVENT_BUTTON_CLICK, async e => {
+        flux_overlay_element.addEventListener(FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK, async e => {
             flux_overlay_element.buttons = true;
 
             await flux_overlay_element.showLoading();

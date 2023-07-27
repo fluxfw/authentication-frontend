@@ -5,6 +5,7 @@ import { LOCALIZATIONS } from "./Localization/LOCALIZATIONS.mjs";
 /** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
 /** @typedef {import("./Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
 /** @typedef {import("./Authentication/_showAuthentication.mjs").showAuthentication} showAuthentication */
+/** @typedef {import("./StyleSheetManager/StyleSheetManager.mjs").StyleSheetManager} StyleSheetManager */
 /** @typedef {import("./Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
 export class FluxAuthenticationFrontend {
@@ -12,14 +13,20 @@ export class FluxAuthenticationFrontend {
      * @type {Localization | null}
      */
     #localization;
+    /**
+     * @type {StyleSheetManager | null}
+     */
+    #style_sheet_manager;
 
     /**
      * @param {Localization | null} localization
+     * @param {StyleSheetManager | null} style_sheet_manager
      * @returns {Promise<FluxAuthenticationFrontend>}
      */
-    static async new(localization = null) {
+    static async new(localization = null, style_sheet_manager = null) {
         const flux_authentication_frontend = new this(
-            localization
+            localization,
+            style_sheet_manager
         );
 
         if (flux_authentication_frontend.#localization !== null) {
@@ -34,10 +41,12 @@ export class FluxAuthenticationFrontend {
 
     /**
      * @param {Localization | null} localization
+     * @param {StyleSheetManager | null} style_sheet_manager
      * @private
      */
-    constructor(localization) {
+    constructor(localization, style_sheet_manager) {
         this.#localization = localization;
+        this.#style_sheet_manager = style_sheet_manager;
     }
 
     /**
@@ -67,7 +76,8 @@ export class FluxAuthenticationFrontend {
         }
 
         await (await import("./Authentication/ShowAuthentication.mjs")).ShowAuthentication.new(
-            this.#localization
+            this.#localization,
+            this.#style_sheet_manager
         )
             .showAuthentication(
                 authenticate,
