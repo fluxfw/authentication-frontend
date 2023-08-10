@@ -85,7 +85,7 @@ export class ShowAuthentication {
             this.#style_sheet_manager
         );
 
-        flux_overlay_element.style.setProperty(`${FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX}z-index`, 1000);
+        flux_overlay_element.style.setProperty(`${FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX}z-index`, 1_000);
 
         flux_overlay_element.addEventListener(FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK, async e => {
             flux_overlay_element.buttons = true;
