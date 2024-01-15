@@ -55,7 +55,7 @@ export class ShowAuthentication {
             FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
             FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX,
             FluxOverlayElement
-        } = await import("../../../flux-overlay/src/FluxOverlayElement.mjs");
+        } = await import("flux-overlay/src/FluxOverlayElement.mjs");
 
         const flux_overlay_element = await FluxOverlayElement.new(
             await this.#localization.translate(

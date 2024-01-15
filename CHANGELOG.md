@@ -6,6 +6,13 @@ Changes:
 
 \-
 
+## v2024-01-15-1
+
+Changes:
+
+- Load libraries using NodeJS's module resolver
+- Adjust for change `DEFAULT_REDIRECT_AFTER_LOGIN_URL` to `/Authentication/AuthenticationSuccess.html` on `flux-authentication-backend`
+
 ## v2023-09-25-1
 
 Changes:

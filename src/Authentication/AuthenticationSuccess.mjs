@@ -7,6 +7,5 @@ if (opener !== null) {
 
     close();
 } else {
-    //location.replace(`${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/../../../..`);
-    location.replace("/");
+    location.replace(`${import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))}/..`);
 }
