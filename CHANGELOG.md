@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2024-02-22-1
+
+Changes:
+
+- Use `Promise.withResolvers`
+
 ## v2024-01-15-1
 
 Changes:

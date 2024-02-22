@@ -45,11 +45,10 @@ export class ShowAuthentication {
      * @returns {Promise<void>}
      */
     async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
-        let resolve_promise;
-
-        const promise = new Promise(resolve => {
-            resolve_promise = resolve;
-        });
+        const {
+            promise,
+            resolve
+        } = Promise.withResolvers();
 
         const {
             FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
@@ -119,7 +118,7 @@ export class ShowAuthentication {
             () => {
                 flux_overlay_element.remove();
 
-                resolve_promise();
+                resolve();
             }
         );
 
