@@ -19,9 +19,9 @@ export class ShowAuthentication {
     /**
      * @param {Localization} localization
      * @param {StyleSheetManager | null} style_sheet_manager
-     * @returns {ShowAuthentication}
+     * @returns {Promise<ShowAuthentication>}
      */
-    static new(localization, style_sheet_manager = null) {
+    static async new(localization, style_sheet_manager = null) {
         return new this(
             localization,
             style_sheet_manager

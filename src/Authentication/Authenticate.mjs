@@ -24,9 +24,9 @@ export class Authenticate {
     #reset_authentication = null;
 
     /**
-     * @returns {Authenticate}
+     * @returns {Promise<Authenticate>}
      */
-    static new() {
+    static async new() {
         return new this();
     }
 
