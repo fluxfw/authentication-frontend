@@ -72,7 +72,7 @@ export class FluxAuthenticationFrontend {
      */
     async showAuthentication(authenticate, set_hide_authentication, switch_to_offline_mode = null) {
         if (this.#localization === null) {
-            throw new Error("Missing Localization");
+            throw new Error("Missing Localization!");
         }
 
         await (await (await import("./Authentication/ShowAuthentication.mjs")).ShowAuthentication.new(
