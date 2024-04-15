@@ -1,6 +1,3 @@
-import { LOCALIZATION_MODULE } from "./Localization/LOCALIZATION_MODULE.mjs";
-import { LOCALIZATIONS } from "./Localization/LOCALIZATIONS.mjs";
-
 /** @typedef {import("./Authentication/_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
 /** @typedef {import("./Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
@@ -24,19 +21,10 @@ export class FluxAuthenticationFrontend {
      * @returns {Promise<FluxAuthenticationFrontend>}
      */
     static async new(localization = null, style_sheet_manager = null) {
-        const flux_authentication_frontend = new this(
+        return new this(
             localization,
             style_sheet_manager
         );
-
-        if (flux_authentication_frontend.#localization !== null) {
-            await flux_authentication_frontend.#localization.addModule(
-                LOCALIZATION_MODULE,
-                LOCALIZATIONS
-            );
-        }
-
-        return flux_authentication_frontend;
     }
 
     /**
