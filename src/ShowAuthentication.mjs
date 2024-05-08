@@ -1,10 +1,10 @@
-import { LOCALIZATION_MODULE } from "../Localization/LOCALIZATION_MODULE.mjs";
-import { LOCALIZATION_KEY_AUTHENTICATE, LOCALIZATION_KEY_AUTHENTICATION_REQUIRED, LOCALIZATION_KEY_SWITCH_TO_OFFLINE_MODE } from "../Localization/LOCALIZATION_KEY.mjs";
+import { LOCALIZATION_MODULE } from "./Localization/LOCALIZATION_MODULE.mjs";
+import { LOCALIZATION_KEY_AUTHENTICATE, LOCALIZATION_KEY_AUTHENTICATION_REQUIRED, LOCALIZATION_KEY_SWITCH_TO_OFFLINE_MODE } from "./Localization/LOCALIZATION_KEY.mjs";
 
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
-/** @typedef {import("../Localization/Localization.mjs").Localization} Localization */
+/** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
 /** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
-/** @typedef {import("../StyleSheetManager/StyleSheetManager.mjs").StyleSheetManager} StyleSheetManager */
+/** @typedef {import("./StyleSheetManager/StyleSheetManager.mjs").StyleSheetManager} StyleSheetManager */
 
 export class ShowAuthentication {
     /**
@@ -51,12 +51,12 @@ export class ShowAuthentication {
         } = Promise.withResolvers();
 
         const {
-            FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
-            FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX,
-            FluxOverlayElement
-        } = await import("flux-overlay/src/FluxOverlayElement.mjs");
+            OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
+            OVERLAY_ELEMENT_VARIABLE_PREFIX,
+            OverlayElement
+        } = await import("overlay/src/OverlayElement.mjs");
 
-        const flux_overlay_element = await FluxOverlayElement.new(
+        const overlay_element = await OverlayElement.new(
             await this.#localization.translate(
                 LOCALIZATION_MODULE,
                 LOCALIZATION_KEY_AUTHENTICATION_REQUIRED
@@ -84,12 +84,12 @@ export class ShowAuthentication {
             this.#style_sheet_manager
         );
 
-        flux_overlay_element.style.setProperty(`${FLUX_OVERLAY_ELEMENT_VARIABLE_PREFIX}z-index`, 1_000);
+        overlay_element.style.setProperty(`${OVERLAY_ELEMENT_VARIABLE_PREFIX}z-index`, 1_000);
 
-        flux_overlay_element.addEventListener(FLUX_OVERLAY_ELEMENT_EVENT_BUTTON_CLICK, async e => {
-            flux_overlay_element.buttons = true;
+        overlay_element.addEventListener(OVERLAY_ELEMENT_EVENT_BUTTON_CLICK, async e => {
+            overlay_element.buttons = true;
 
-            await flux_overlay_element.showLoading();
+            await overlay_element.showLoading();
 
             switch (e.detail.button) {
                 case "authenticate":
@@ -105,18 +105,18 @@ export class ShowAuthentication {
             }
         });
 
-        flux_overlay_element.show();
+        overlay_element.show();
 
         set_hide_authentication(
             async () => {
-                flux_overlay_element.buttons = false;
+                overlay_element.buttons = false;
 
-                await flux_overlay_element.showLoading(
+                await overlay_element.showLoading(
                     false
                 );
             },
             () => {
-                flux_overlay_element.remove();
+                overlay_element.remove();
 
                 resolve();
             }

@@ -1,11 +1,11 @@
-/** @typedef {import("./Authentication/_authenticate.mjs").authenticate} _authenticate */
+/** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
-/** @typedef {import("./Authentication/setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
-/** @typedef {import("./Authentication/_showAuthentication.mjs").showAuthentication} showAuthentication */
+/** @typedef {import("./setHideAuthentication.mjs").setHideAuthentication} setHideAuthentication */
+/** @typedef {import("./_showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("./StyleSheetManager/StyleSheetManager.mjs").StyleSheetManager} StyleSheetManager */
-/** @typedef {import("./Authentication/switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
+/** @typedef {import("./switchToOfflineMode.mjs").switchToOfflineMode} switchToOfflineMode */
 
-export class FluxAuthenticationFrontend {
+export class AuthenticationFrontend {
     /**
      * @type {Localization | null}
      */
@@ -18,7 +18,7 @@ export class FluxAuthenticationFrontend {
     /**
      * @param {Localization | null} localization
      * @param {StyleSheetManager | null} style_sheet_manager
-     * @returns {Promise<FluxAuthenticationFrontend>}
+     * @returns {Promise<AuthenticationFrontend>}
      */
     static async new(localization = null, style_sheet_manager = null) {
         return new this(
@@ -44,7 +44,7 @@ export class FluxAuthenticationFrontend {
      * @returns {Promise<void>}
      */
     async authenticate(authentication_url, show_authentication, switch_to_offline_mode = null) {
-        await (await (await import("./Authentication/Authenticate.mjs")).Authenticate.new())
+        await (await (await import("./Authenticate.mjs")).Authenticate.new())
             .authenticate(
                 authentication_url,
                 show_authentication,
@@ -63,7 +63,7 @@ export class FluxAuthenticationFrontend {
             throw new Error("Missing Localization!");
         }
 
-        await (await (await import("./Authentication/ShowAuthentication.mjs")).ShowAuthentication.new(
+        await (await (await import("./ShowAuthentication.mjs")).ShowAuthentication.new(
             this.#localization,
             this.#style_sheet_manager
         ))
