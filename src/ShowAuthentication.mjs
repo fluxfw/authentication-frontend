@@ -62,6 +62,7 @@ export class ShowAuthentication {
                 LOCALIZATION_KEY_AUTHENTICATION_REQUIRED
             ),
             null,
+            null,
             [
                 ...switch_to_offline_mode !== null ? [
                     {
@@ -115,7 +116,7 @@ export class ShowAuthentication {
                     false
                 );
             },
-            () => {
+            async () => {
                 overlay_element.remove();
 
                 resolve();

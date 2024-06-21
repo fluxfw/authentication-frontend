@@ -1,3 +1,3 @@
 /**
- * @typedef {() => void} resetAuthentication
+ * @typedef {() => Promise<void>} resetAuthentication
  */

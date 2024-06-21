@@ -1,3 +1,3 @@
 /**
- * @typedef {() => void} hideAuthentication
+ * @typedef {() => Promise<void>} hideAuthentication
  */

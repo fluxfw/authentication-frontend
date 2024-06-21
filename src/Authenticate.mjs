@@ -70,14 +70,14 @@ export class Authenticate {
 
     /**
      * @param {Event} e
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    handleEvent(e) {
+    async handleEvent(e) {
         switch (true) {
             case e.target === globalThis:
                 switch (e.type) {
                     case "message":
-                        this.#popupEvent(
+                        await this.#popupEvent(
                             e
                         );
                         break;
@@ -105,7 +105,7 @@ export class Authenticate {
 
         this.#popup = open(authentication_url, "_blank", "menubar=no");
 
-        this.#interval = setInterval(() => {
+        this.#interval = setInterval(async () => {
             if (this.#popup === null || !this.#popup.closed) {
                 return;
             }
@@ -116,7 +116,7 @@ export class Authenticate {
                 return;
             }
 
-            this.#reset_authentication();
+            await this.#reset_authentication();
         }, 2_000);
     }
 
@@ -146,9 +146,9 @@ export class Authenticate {
 
     /**
      * @param {MessageEvent} e
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    #popupEvent(e) {
+    async #popupEvent(e) {
         if (e.origin !== location.origin) {
             return;
         }
@@ -171,7 +171,7 @@ export class Authenticate {
                     return;
                 }
 
-                hide_authentication();
+                await hide_authentication();
             }
                 break;
 
@@ -193,6 +193,6 @@ export class Authenticate {
 
         await switch_to_offline_mode();
 
-        hide_authentication();
+        await hide_authentication();
     }
 }
