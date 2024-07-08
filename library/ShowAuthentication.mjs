@@ -54,7 +54,7 @@ export class ShowAuthentication {
             OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
             OVERLAY_ELEMENT_VARIABLE_PREFIX,
             OverlayElement
-        } = await import("overlay/src/OverlayElement.mjs");
+        } = await import("overlay/OverlayElement.mjs");
 
         const overlay_element = await OverlayElement.new(
             await this.#localization.translate(
