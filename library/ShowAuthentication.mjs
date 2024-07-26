@@ -1,5 +1,5 @@
-import { LOCALIZATION_MODULE } from "./Localization/LOCALIZATION_MODULE.mjs";
-import { LOCALIZATION_KEY_AUTHENTICATE, LOCALIZATION_KEY_AUTHENTICATION_REQUIRED, LOCALIZATION_KEY_SWITCH_TO_OFFLINE_MODE } from "./Localization/LOCALIZATION_KEY.mjs";
+import { LOCALIZATION_MODULE_AUTHENTICATION_FRONTEND } from "./Localization/LOCALIZATION_MODULE_AUTHENTICATION_FRONTEND.mjs";
+import { LOCALIZATION_KEY_AUTHENTICATION_FRONTEND_AUTHENTICATE, LOCALIZATION_KEY_AUTHENTICATION_FRONTEND_AUTHENTICATION_REQUIRED, LOCALIZATION_KEY_AUTHENTICATION_FRONTEND_SWITCH_TO_OFFLINE_MODE } from "./Localization/LOCALIZATION_KEY_AUTHENTICATION_FRONTEND.mjs";
 
 /** @typedef {import("./_authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("./Localization/Localization.mjs").Localization} Localization */
@@ -58,8 +58,8 @@ export class ShowAuthentication {
 
         const overlay_element = await OverlayElement.new(
             await this.#localization.translate(
-                LOCALIZATION_MODULE,
-                LOCALIZATION_KEY_AUTHENTICATION_REQUIRED
+                LOCALIZATION_MODULE_AUTHENTICATION_FRONTEND,
+                LOCALIZATION_KEY_AUTHENTICATION_FRONTEND_AUTHENTICATION_REQUIRED
             ),
             null,
             null,
@@ -67,8 +67,8 @@ export class ShowAuthentication {
                 ...switch_to_offline_mode !== null ? [
                     {
                         label: await this.#localization.translate(
-                            LOCALIZATION_MODULE,
-                            LOCALIZATION_KEY_SWITCH_TO_OFFLINE_MODE
+                            LOCALIZATION_MODULE_AUTHENTICATION_FRONTEND,
+                            LOCALIZATION_KEY_AUTHENTICATION_FRONTEND_SWITCH_TO_OFFLINE_MODE
 
                         ),
                         value: "switch-to-offline-mode"
@@ -76,8 +76,8 @@ export class ShowAuthentication {
                 ] : [],
                 {
                     label: await this.#localization.translate(
-                        LOCALIZATION_MODULE,
-                        LOCALIZATION_KEY_AUTHENTICATE
+                        LOCALIZATION_MODULE_AUTHENTICATION_FRONTEND,
+                        LOCALIZATION_KEY_AUTHENTICATION_FRONTEND_AUTHENTICATE
                     ),
                     value: "authenticate"
                 }
