@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2024-08-05-1
+
+Changes:
+
+- `overlay`
+
 ## v2024-07-26-1
 
 Changes:

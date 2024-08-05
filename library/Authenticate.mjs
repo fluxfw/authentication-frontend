@@ -69,16 +69,16 @@ export class Authenticate {
     }
 
     /**
-     * @param {Event} e
+     * @param {Event} event
      * @returns {Promise<void>}
      */
-    async handleEvent(e) {
+    async handleEvent(event) {
         switch (true) {
-            case e.target === globalThis:
-                switch (e.type) {
+            case event.target === globalThis:
+                switch (event.type) {
                     case "message":
                         await this.#popupEvent(
-                            e
+                            event
                         );
                         break;
 
@@ -145,19 +145,19 @@ export class Authenticate {
     }
 
     /**
-     * @param {MessageEvent} e
+     * @param {MessageEvent} event
      * @returns {Promise<void>}
      */
-    async #popupEvent(e) {
-        if (e.origin !== location.origin) {
+    async #popupEvent(event) {
+        if (event.origin !== location.origin) {
             return;
         }
 
-        if ((e.data ?? null) === null || typeof e.data !== "object") {
+        if ((event.data ?? null) === null || typeof event.data !== "object") {
             return;
         }
 
-        switch (e.data.type) {
+        switch (event.data.type) {
             case AUTHENTICATION_SUCCESS: {
                 if (this.#popup === null) {
                     return;

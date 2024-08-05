@@ -51,7 +51,6 @@ export class ShowAuthentication {
         } = Promise.withResolvers();
 
         const {
-            OVERLAY_ELEMENT_EVENT_BUTTON_CLICK,
             OVERLAY_ELEMENT_VARIABLE_PREFIX,
             OverlayElement
         } = await import("overlay/OverlayElement.mjs");
@@ -87,12 +86,12 @@ export class ShowAuthentication {
 
         overlay_element.style.setProperty(`${OVERLAY_ELEMENT_VARIABLE_PREFIX}z-index`, 1_000);
 
-        overlay_element.addEventListener(OVERLAY_ELEMENT_EVENT_BUTTON_CLICK, async e => {
+        overlay_element.addEventListener("button-click", async event => {
             overlay_element.buttons = true;
 
             await overlay_element.showLoading();
 
-            switch (e.detail.button) {
+            switch (event.detail.button) {
                 case "authenticate":
                     authenticate();
                     break;
